@@ -11,24 +11,26 @@ s=input()
 A=[]
 for i in range(N):
     A.append(s[i])
-cnt=0
 
-if A[0]=="W" and A[1]=="R":
-    A[0]="R"
-    cnt+=1
+cntW=0
+for i in range(N):
+    if A[i]=="W":
+        cntW+=1
+cntR=N-cntW
 
-for i in range(1,N-2):
-    if A[i]=="W" and A[i+1]=="R":
-        if A[i-1]=="W":
-            A[i+1]="W"
-        else:
-            A[i]="R"
-        cnt+=1
+changeW=0
+changeR=0
+for i in range(cntR):
+    if A[i]=="W":
+        changeW+=1
+for i in range(cntR,N):
+    if A[i]=="R":
+        changeR+=1
 
-if A[N-2]=="W" and A[N-1]=="R":
-    A[N-1]=="W"
-    cnt+=1
-
-print(cnt)
-
-
+if changeR==changeW:
+    ans=changeW
+else:
+    #minN=min(changeW,changeR)
+    maxN=max(changeR,changeW)
+    ans=maxN
+print(ans)
