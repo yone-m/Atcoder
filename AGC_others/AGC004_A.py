@@ -12,16 +12,10 @@ def block(a,b,c):
         print(0)
         return
     else:
-        if a!=1:
-            print(blocksum-2*(a//2)*b*c)
-            return
-        elif b!=1:
-            print(blocksum-2*(b//2)*a*c)
-            return
-        elif c!=1:
-            print(blocksum-2*(c//2)*a*b)
-            return
-        else:
-            print(1)
-            return
+        al=[]
+        al.append(a*b)
+        al.append(b*c)
+        al.append(a*c)
+        al=sorted(al)
+        print(al[0])
 block(a,b,c)
