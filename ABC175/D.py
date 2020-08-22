@@ -1,46 +1,79 @@
 import io
 import sys
 _INPUT="""\
-3 3
-3 1 2
--1000 -2000 -3000
+10 58
+9 1 6 7 8 4 3 2 10 5
+695279662 988782657 -119067776 382975538 -151885171 -177220596 -169777795 37619092 389386780 980092719
 """
 sys.stdin=io.StringIO(_INPUT)
-n,k=map(int,input().split())
-p=list(map(int,input().split()))
-c=list(map(int,input().split()))
-
+import collections
 #コマがマスiにあればコマをPiに移動させる
 #このときスコアに+Cpiされる
-maxn=-10**15
-for i in range(n):
-    #si=0
-    ck=k
-    ans=0
-    koma=i
-    if k>=n:
-        ck=k%n
-        kaisu=(k-(k%n))//n
-        #kaisu=k//n
-        sump=sum(p)
-        ans+=sump*kaisu
-    else:
-        ck=k
-
-    while ck>=1:
-        koma=p[koma]-1
-        ans+=c[koma]
-        maxn=max(maxn,ans)
-        ck-=1
-print(maxn)
-'''
-for i in range(n):
-    ans=0
+def sugoroku():
+    n,k=map(int,input().split())
+    p=list(map(int,input().split()))
+    c=list(map(int,input().split()))
     maxn=-10**15
-    for j in range(k):
-        z=p[i]-1
-        ans+=c[z]
-        maxn=max(maxn,ans)
-        lm[i]=maxn
-print(lm)
-'''
+
+    ll=[]
+    l=[]
+    for i in range(n):
+        l.append(i)
+        koma=i
+        for j in range(n-1):
+            koma=p[koma]-1
+            l.append(koma)
+            c=collections.Counter(l)
+            if len(c)!=j+1:
+                l=set(l)
+                ll.append(l)
+
+
+
+
+    if k<=n:
+        for i in range(n):
+            ans=0
+            koma=p[i]-1
+            ans+=c[koma]
+            for _ in range(1,k):
+                koma=p[koma]-1
+                ans+=c[koma]
+                maxn=max(ans,maxn)
+            maxn=max(ans,maxn)
+        print(maxn)
+        return
+
+    else:
+        suml=sum(c)
+        if suml>0:
+            ck=k%n
+            loop=k//n
+            if ck!=0:
+                for i in range(n):
+                    ans=0
+                    koma=p[i]-1
+                    ans+=c[koma]
+                    for _ in range(ck-1):    
+                        koma=p[koma]-1
+                        ans+=c[koma]
+                        maxn=max(ans,maxn)
+                nmaxn=loop*suml+maxn
+                print(nmaxn)
+                return
+            else:
+                print(loop*suml)
+                return
+        else: 
+            for i in range(n):
+                ans=0
+                koma=p[i]-1
+                ans+=c[koma]
+                for _ in range(1,n):
+                    koma=p[koma]-1
+                    ans+=c[koma]
+                    maxn=max(ans,maxn)
+                maxn=max(ans,maxn)
+            print(maxn)
+            return
+sugoroku()
